@@ -1,4 +1,3 @@
-
 const calendar = document.querySelector(".calendar"),
   date = document.querySelector(".date"),
   daysContainer = document.querySelector(".days"),
@@ -334,43 +333,10 @@ function saveEvents() {
   localStorage.setItem("events", JSON.stringify(eventsArr));
 }
 
-// function getEvents() {
-//   if (localStorage.getItem("events") === null) {
-//     return;
-//   }
-//   eventsArr.push(...JSON.parse(localStorage.getItem("events")));
-// }
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyD_u7ni-nN7MDuSabz6hhTi8OweVLIg3X0",
-  authDomain: "hrd-mengaji.firebaseapp.com",
-  projectId: "hrd-mengaji",
-  storageBucket: "hrd-mengaji.appspot.com",
-  messagingSenderId: "956689507536",
-  appId: "1:956689507536:web:4bc81210bbc593d0e2aad5",
-  measurementId: "G-2W8G7NHT3K"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const database = getDatabase();
-
-// Function to save events to Firebase Realtime Database
-function saveEventsToFirebase() {
-  // Loop through each event and push it to the database under the 'events' node
-  eventsArr.forEach((event) => {
-    const eventsRef = ref(database, `events/${event.year}/${event.month}/${event.day}`);
-    push(eventsRef, event)
-      .then(() => {
-        console.log("Event successfully saved to Firebase Realtime Database");
-      })
-      .catch((error) => {
-        console.error("Error saving event to Firebase Realtime Database:", error);
-      });
-  });
+function getEvents() {
+  if (localStorage.getItem("events") === null) {
+    return;
+  }
+  eventsArr.push(...JSON.parse(localStorage.getItem("events")));
 }
 
-// Call the function to save events to Firebase Realtime Database
-saveEventsToFirebase();
