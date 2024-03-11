@@ -1,3 +1,8 @@
+const token = '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';
+const repoOwner = 'mbvtirta';
+const repoName = 'mbvtirta.github.io';
+const filePath = 'HRD-mengaji/events.JSON';
+
 const calendar = document.querySelector(".calendar"),
   date = document.querySelector(".date"),
   daysContainer = document.querySelector(".days"),
@@ -329,14 +334,52 @@ eventsContainer.addEventListener("click", (e) => {
   }
 });
 
-function saveEvents() {
-  localStorage.setItem("events", JSON.stringify(eventsArr));
-}
-
-function getEvents() {
-  if (localStorage.getItem("events") === null) {
-    return;
+async function saveEvents() {
+  const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      message: 'Update events.JSON',
+      content: btoa(JSON.stringify(eventsArr)),
+      sha: await getFileSha(),
+    }),
+  });
+  if (response.ok) {
+    console.log('Events saved successfully!');
+  } else {
+    console.error('Failed to save events:', response.status);
   }
-  eventsArr.push(...JSON.parse(localStorage.getItem("events")));
 }
 
+async function getEvents() {
+  try {
+    const response = await fetch(`https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${filePath}`);
+    if (response.ok) {
+      const data = await response.json();
+      eventsArr.push(...data);
+      console.log('Events loaded successfully:', eventsArr);
+    } else {
+      console.error('Failed to load events:', response.status);
+    }
+  } catch (error) {
+    console.error('Failed to load events:', error);
+  }
+}
+
+async function getFileSha() {
+  const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+    headers: {
+      'Authorization': `token ${token}`,
+    },
+  });
+  const data = await response.json();
+  if (response.ok) {
+    return data.sha;
+  } else {
+    console.error('Failed to get file SHA:', response.statusText);
+    return null;
+  }
+}
