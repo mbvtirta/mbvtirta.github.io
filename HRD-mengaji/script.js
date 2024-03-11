@@ -1,25 +1,25 @@
-const token = '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';
+const token = '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';
 const repoOwner = 'mbvtirta';
 const repoName = 'mbvtirta.github.io';
 const filePath = 'HRD-mengaji/events.JSON';
 
-const calendar = document.querySelector(".calendar"),
-  date = document.querySelector(".date"),
-  daysContainer = document.querySelector(".days"),
-  prev = document.querySelector(".prev"),
-  next = document.querySelector(".next"),
-  todayBtn = document.querySelector(".today-btn"),
-  gotoBtn = document.querySelector(".goto-btn"),
-  dateInput = document.querySelector(".date-input"),
-  eventDay = document.querySelector(".event-day"),
-  eventDate = document.querySelector(".event-date"),
-  eventsContainer = document.querySelector(".events"),
-  addEventBtn = document.querySelector(".add-event"),
-  addEventWrapper = document.querySelector(".add-event-wrapper "),
-  addEventCloseBtn = document.querySelector(".close "),
-  addEventTitle = document.querySelector(".event-name "),
-  addEventDropdown = document.querySelector(".custom-dropdown"),
-  addEventSubmit = document.querySelector(".add-event-btn ");
+const calendar = document.querySelector(".calendar");
+const date = document.querySelector(".date");
+const daysContainer = document.querySelector(".days");
+const prev = document.querySelector(".prev");
+const next = document.querySelector(".next");
+const todayBtn = document.querySelector(".today-btn");
+const gotoBtn = document.querySelector(".goto-btn");
+const dateInput = document.querySelector(".date-input");
+const eventDay = document.querySelector(".event-day");
+const eventDate = document.querySelector(".event-date");
+const eventsContainer = document.querySelector(".events");
+const addEventBtn = document.querySelector(".add-event");
+const addEventWrapper = document.querySelector(".add-event-wrapper");
+const addEventCloseBtn = document.querySelector(".close");
+const addEventTitle = document.querySelector(".event-name");
+const addEventDropdown = document.querySelector(".custom-dropdown");
+const addEventSubmit = document.querySelector(".add-event-btn");
 
 let today = new Date();
 let activeDay;
@@ -27,23 +27,12 @@ let month = today.getMonth();
 let year = today.getFullYear();
 
 const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
 ];
 
-const eventsArr = [];
+let eventsArr = [];
 getEvents();
-console.log(eventsArr);
 
 function initCalendar() {
   const firstDay = new Date(year, month, 1);
@@ -99,7 +88,7 @@ function initCalendar() {
     days += `<div class="day next-date">${j}</div>`;
   }
   daysContainer.innerHTML = days;
-  addListner();
+  addListener();
 }
 
 function prevMonth() {
@@ -125,7 +114,7 @@ next.addEventListener("click", nextMonth);
 
 initCalendar();
 
-function addListner() {
+function addListener() {
   const days = document.querySelectorAll(".day");
   days.forEach((day) => {
     day.addEventListener("click", (e) => {
@@ -205,14 +194,14 @@ function updateEvents(date) {
       month + 1 === event.month &&
       year === event.year
     ) {
-      event.events.forEach((event) => {
+      event.events.forEach((eventItem) => {
         events += `<div class="event">
             <div class="title">
               <i class="fas fa-circle"></i>
-              <h3 class="event-title">${event.title}</h3>
+              <h3 class="event-title">${eventItem.title}</h3>
             </div>
             <div class="event-dropdown">
-              <span class="event-dropdown-value">${event.name}</span>
+              <span class="event-dropdown-value">${eventItem.name}</span>
             </div>
         </div>`;
       });
@@ -224,8 +213,8 @@ function updateEvents(date) {
         </div>`;
   }
   eventsContainer.innerHTML = events;
-  saveEvents();
 }
+
 
 addEventBtn.addEventListener("click", () => {
   addEventWrapper.classList.toggle("active");
@@ -241,85 +230,86 @@ document.addEventListener("click", (e) => {
   }
 });
 
-addEventSubmit.addEventListener("click", () => {
-  const eventTitle = addEventTitle.value;
-  const eventDropdown = addEventDropdown.value;
+if (addEventSubmit) {
+  addEventSubmit.addEventListener("click", () => {
+    const eventTitle = addEventTitle.value;
+    const eventDropdown = addEventDropdown.value;
 
-  if (eventTitle === "" || eventDropdown === "") {
-    alert("Please fill all the fields");
-    return;
-  }
+    if (eventTitle === "" || eventDropdown === "") {
+      alert("Please fill all the fields");
+      return;
+    }
 
-  let eventExist = false;
-  eventsArr.forEach((event) => {
-    if (
-      event.day === activeDay &&
-      event.month === month + 1 &&
-      event.year === year
-    ) {
-      event.events.forEach((event) => {
-        if (event.title === eventTitle) {
-          eventExist = true;
+    let eventExist = false;
+    eventsArr.forEach((event) => {
+      if (
+        event.day === activeDay &&
+        event.month === month + 1 &&
+        event.year === year
+      ) {
+        event.events.forEach((event) => {
+          if (event.title === eventTitle) {
+            eventExist = true;
+          }
+        });
+      }
+    });
+    if (eventExist) {
+      alert("Event already added");
+      return;
+    }
+    const newEvent = {
+      title: eventTitle,
+      name: eventDropdown
+    };
+    let eventAdded = false;
+    if (eventsArr.length > 0) {
+      eventsArr.forEach((item) => {
+        if (
+          item.day === activeDay &&
+          item.month === month + 1 &&
+          item.year === year
+        ) {
+          item.events.push(newEvent);
+          eventAdded = true;
         }
       });
     }
+
+    if (!eventAdded) {
+      eventsArr.push({
+        day: activeDay,
+        month: month + 1,
+        year: year,
+        events: [newEvent],
+      });
+    }
+
+    addEventWrapper.classList.remove("active");
+    addEventTitle.value = "Juz ke-"; // Tambahkan default value "Juz ke-"
+    addEventDropdown.value = "";
+    updateEvents(activeDay);
+    const activeDayEl = document.querySelector(".day.active");
+    if (!activeDayEl.classList.contains("event")) {
+      activeDayEl.classList.add("event");
+    }
+    saveEvents(); // Simpan data acara setiap kali acara baru ditambahkan
   });
-  if (eventExist) {
-    alert("Event already added");
-    return;
-  }
-  const newEvent = {
-    title: eventTitle,
-    name: eventDropdown
-  };
-  let eventAdded = false;
-  if (eventsArr.length > 0) {
-    eventsArr.forEach((item) => {
-      if (
-        item.day === activeDay &&
-        item.month === month + 1 &&
-        item.year === year
-      ) {
-        item.events.push(newEvent);
-        eventAdded = true;
-      }
-    });
-  }
-
-  if (!eventAdded) {
-    eventsArr.push({
-      day: activeDay,
-      month: month + 1,
-      year: year,
-      events: [newEvent],
-    });
-  }
-
-  addEventWrapper.classList.remove("active");
-  addEventTitle.value = "Juz ke-";
-  addEventDropdown.value = "";
-  updateEvents(activeDay);
-  const activeDayEl = document.querySelector(".day.active");
-  if (!activeDayEl.classList.contains("event")) {
-    activeDayEl.classList.add("event");
-  }
-});
+} else {
+  console.error("Element .add-event-btn not found in the DOM");
+}
 
 eventsContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("event")) {
     if (confirm("Are you sure you want to delete this event?")) {
-      const eventTitle = e.target.children[0].children[1].innerHTML;
+      const eventTitle = e.target.querySelector(".event-title").textContent;
       eventsArr.forEach((event) => {
         if (
           event.day === activeDay &&
           event.month === month + 1 &&
           event.year === year
         ) {
-          event.events.forEach((item, index) => {
-            if (item.title === eventTitle) {
-              event.events.splice(index, 1);
-            }
-          });
+          event.events = event.events.filter(item => item.title !== eventTitle);
           if (event.events.length === 0) {
             eventsArr.splice(eventsArr.indexOf(event), 1);
             const activeDayEl = document.querySelector(".day.active");
@@ -330,6 +320,7 @@ eventsContainer.addEventListener("click", (e) => {
         }
       });
       updateEvents(activeDay);
+      saveEvents(); // Simpan data acara setiap kali acara dihapus
     }
   }
 });
@@ -343,7 +334,7 @@ async function saveEvents() {
     },
     body: JSON.stringify({
       message: 'Update events.JSON',
-      content: btoa(JSON.stringify(eventsArr)),
+      content: btoa(JSON.stringify(eventsArr)), // Di sini Anda mengirimkan data eventsArr yang telah diubah
       sha: await getFileSha(),
     }),
   });
@@ -361,6 +352,9 @@ async function getEvents() {
       const data = await response.json();
       eventsArr.push(...data);
       console.log('Events loaded successfully:', eventsArr);
+      // Tampilkan event saat data acara sudah dimuat
+      initCalendar();
+      updateEvents(activeDay);
     } else {
       console.error('Failed to load events:', response.status);
     }
