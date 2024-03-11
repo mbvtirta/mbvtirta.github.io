@@ -355,3 +355,46 @@ function getEvents() {
 
 // Panggil fungsi getEvents() saat aplikasi dimuat
 getEvents();
+
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyD_u7ni-nN7MDuSabz6hhTi8OweVLIg3X0",
+  authDomain: "hrd-mengaji.firebaseapp.com",
+  projectId: "hrd-mengaji",
+  storageBucket: "hrd-mengaji.appspot.com",
+  messagingSenderId: "956689507536",
+  appId: "1:956689507536:web:f16568dc87a763d9e2aad5",
+  measurementId: "G-MS6J5B73RE"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+// Initialize Firestore
+const db = getFirestore(app);
+
+// Function to add data to Firestore
+async function addDataToFirestore(data) {
+  try {
+    const docRef = await addDoc(collection(db, "events"), data);
+    console.log("Document written with ID: ", docRef.id);
+  } catch (error) {
+    console.error("Error adding document: ", error);
+  }
+}
+
+// Example data
+const eventData = {
+  title: "Event Title",
+  date: "Event Date",
+  // Add other fields as needed
+};
+
+// Call the function to add data to Firestore
+addDataToFirestore(eventData);
