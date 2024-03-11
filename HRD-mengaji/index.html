@@ -100,11 +100,34 @@
 
     <div class="credits">
       <p>
-        Bismillah Istiqomah ❤️ - 
+        Crafted with ❤️ by
         <strong>MBV Tirta</strong>
       </p>
     </div>
 
     <script src="script.js"></script>
+    <<script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyD_u7ni-nN7MDuSabz6hhTi8OweVLIg3X0",
+        authDomain: "hrd-mengaji.firebaseapp.com",
+        projectId: "hrd-mengaji",
+        storageBucket: "hrd-mengaji.appspot.com",
+        messagingSenderId: "956689507536",
+        appId: "1:956689507536:web:4bc81210bbc593d0e2aad5",
+        measurementId: "G-2W8G7NHT3K"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
   </body>
 </html>
