@@ -330,9 +330,9 @@ eventsContainer.addEventListener("click", (e) => {
   }
 });
 
-// function saveEvents() {
-//   localStorage.setItem("events", JSON.stringify(eventsArr));
-// }
+function saveEvents() {
+  localStorage.setItem("events", JSON.stringify(eventsArr));
+}
 
 // function getEvents() {
 //   if (localStorage.getItem("events") === null) {
