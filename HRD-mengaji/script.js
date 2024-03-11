@@ -359,14 +359,17 @@ const database = getDatabase();
 
 // Function to save events to Firebase Realtime Database
 function saveEventsToFirebase() {
-  const eventsRef = ref(database, 'events');
-  push(eventsRef, eventsArr)
-    .then(() => {
-      console.log("Events successfully saved to Firebase Realtime Database");
-    })
-    .catch((error) => {
-      console.error("Error saving events to Firebase Realtime Database:", error);
-    });
+  // Loop through each event and push it to the database under the 'events' node
+  eventsArr.forEach((event) => {
+    const eventsRef = ref(database, `events/${event.year}/${event.month}/${event.day}`);
+    push(eventsRef, event)
+      .then(() => {
+        console.log("Event successfully saved to Firebase Realtime Database");
+      })
+      .catch((error) => {
+        console.error("Error saving event to Firebase Realtime Database:", error);
+      });
+  });
 }
 
 // Call the function to save events to Firebase Realtime Database
