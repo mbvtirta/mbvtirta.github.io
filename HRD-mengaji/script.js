@@ -339,3 +339,19 @@ function getEvents() {
   }
   eventsArr.push(...JSON.parse(localStorage.getItem("events")));
 }
+
+// Simpan data event ke local storage
+function saveEvents() {
+  localStorage.setItem("events", JSON.stringify(eventsArr));
+}
+
+// Muat data event dari local storage saat aplikasi dimuat
+function getEvents() {
+  const storedEvents = localStorage.getItem("events");
+  if (storedEvents) {
+    eventsArr.push(...JSON.parse(storedEvents));
+  }
+}
+
+// Panggil fungsi getEvents() saat aplikasi dimuat
+getEvents();
