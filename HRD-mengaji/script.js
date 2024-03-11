@@ -1,7 +1,7 @@
-const token = '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';
+const token = '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';
 const repoOwner = 'mbvtirta';
-const repoName = 'ultah';
-const filePath = 'events.JSON';
+const repoName = 'mbvtirta.github.io';
+const filePath = 'HRD-mengaji/events.JSON';
 
 const calendar = document.querySelector(".calendar");
 const date = document.querySelector(".date");
