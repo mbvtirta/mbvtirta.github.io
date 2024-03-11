@@ -1,4 +1,4 @@
-const token = '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';
+const token = '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';
 const repoOwner = 'mbvtirta';
 const repoName = 'mbvtirta.github.io';
 const filePath = 'HRD-mengaji/events.JSON';
